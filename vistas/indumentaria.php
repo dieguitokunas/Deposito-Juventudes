@@ -14,20 +14,7 @@
           <th>Eliminar</th>
         </tr>
       </thead>
-      <tbody>
-        <?php
-      while ($row=$productos_indumentaria->fetch_object()){
-        echo '<tr>';
-        echo '<td>'.$row->categorias.'</td>';
-        echo '<td>'.$row->productos.'</td>';
-        echo '<td>'.$row->talle_tipo1.'</td>';
-        echo '<td>'.$row->colores.'</td>';
-        echo '<td>'.$row->stock.'</td>';
-        echo '<td><a class="btn bg-warning">Editar</a></td>';
-        echo '<td><a class="btn bg-danger">Eliminar</a></td>';
-        echo '</tr>';
-      }
-        ?>
+      <tbody id="tbodyIndumentaria">
       </tbody>
     </table>
     </section>

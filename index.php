@@ -98,19 +98,12 @@ require './db/selectProductos.php';
   </header>
 
 
-  
 
 
 
-  <?php
-  include './vistas/modalRetiro.php';
-  include './vistas/modalCargar.php';
-  include './vistas/tecnologia.php';
-  include './vistas/indumentaria.php';
-  include './vistas/insumos.php';
-  ?>
+
   <main class="min-h-100 h-75  p-2 mt-5 d-block" id="inicio">
-  <h1 class="text-center text-light">INICIO</h1>
+    <h1 class="text-center text-light">INICIO</h1>
     <section class="inicio-contenedor container-fluid bg-light h-100 max-h-100p p-4 br-4 ">
       <article id="mostrarRetiro">
         <p>Retirar Productos</p>
@@ -132,27 +125,27 @@ require './db/selectProductos.php';
         <p>Insumos</p>
         <i class="fa-solid fa-cookie-bite"></i>
       </article>
-      <article>
+      <article id="mostrarDonaciones">
         <p>Donaciones</p>
         <i class="fa-solid fa-gift"></i>
       </article>
-      <article>
+      <article id="mostrarDiversion">
         <p>Diversión</p>
         <i class="fa-solid fa-gamepad"></i>
       </article>
-      <article>
+      <article id="mostrarLibreria">
         <p>Librería</p>
         <i class="fa-solid fa-book"></i>
       </article>
-      <article>
+      <article id="mostrarHerramientas">
         <p>Herramientas</p>
         <i class="fa-solid fa-tools"></i>
       </article>
-      <article>
+      <article id="mostrarComunicaciones">
         <p>Comunicaciones</p>
         <i class="fa-solid fa-people-group"></i>
       </article>
-      <article>
+      <article id="mostrarKit">
         <p>Kit Escolar</p>
         <i class="fa-solid fa-pen"></i>
       </article>
@@ -161,20 +154,39 @@ require './db/selectProductos.php';
   </main>
 
 
+  <?php
+  include './vistas/modalRetiro.php';
+  include './vistas/modalCargar.php';
+  include './vistas/tecnologia.php';
+  include './vistas/indumentaria.php';
+  include './vistas/insumos.php';
+  include './vistas/diversion.php';
+  include './vistas/donaciones.php';
+  include './vistas/kit.php';
+  include './vistas/libreria.php';
+  include './vistas/herramientas.php';
+  include './vistas/comunicaciones.php';
+  ?>
   <script src="./js/bootstrap.bundle.min.js"></script>
-  <script  src="./js/modalRetiro.js"></script>
-  <script  src="./js/modalCargar.js"></script>
-  <script  src="./js/mostrarTecnologia.js"></script>
+  <script src="./js/modalRetiro.js"></script>
+  <script src="./js/modalCargar.js"></script>
+  <script src="./js/mostrarTecnologia.js"></script>
   <script src="./js/mostrarIndumentaria.js"></script>
   <script src="./js/mostrarInsumos.js"></script>
+  <script src="./js/mostrarDiversion.js"></script>
+  <script src="./js/mostrarDonaciones.js"></script>
+  <script src="./js/mostrarKit.js"></script>
+  <script src="./js/mostrarLibreria.js"></script>
+  <script src="./js/mostrarHerramientas.js"></script>
+  <script src="./js/mostrarComunicaciones.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
 
       const linkInicio = document.getElementById("inicio-link")
-            
+
       const inicio = document.getElementById("inicio")
-      
-       
+
+
 
       linkInicio.addEventListener("click", function() {
         inicio.classList.add("d-block")
@@ -185,13 +197,173 @@ require './db/selectProductos.php';
         productosIndumentaria.classList.add("d-none")
         productosInsumos.classList.remove("d-block")
         productosInsumos.classList.add("d-none")
+        productosDonaciones.classList.remove("d-block")
+        productosDonaciones.classList.add("d-none")
+        productosDiversion.classList.remove("d-block")
+        productosDiversion.classList.add("d-none")
+        productosKit.classList.remove("d-block")
+        productosKit.classList.add("d-none")
+        productosLibreria.classList.remove("d-block")
+        productosLibreria.classList.add("d-none")
+        productosHerramientas.classList.remove("d-block")
+        productosHerramientas.classList.add("d-none")
+        productosComunicaciones.classList.remove("d-block")
+        productosComunicaciones.classList.add("d-none")
       })
-
-
-
-
-
+      mostrarTecnologia.addEventListener("click", function() {
+        let data = new FormData()
+        data.append("tecnologia", true)
+        const tbodyTec = document.getElementById("tbodyTecnologia")
+        fetch('db/selectProductos.php', {
+            method: "POST",
+            body: data,
+          }).then(response => response.text())
+          .then(data => {
+            tbodyTec.innerHTML = data
+          })
+          .catch(err => {
+            console.error("Error: " + err)
+            alert("Error: "+err)
+          })
+      })
+      mostrarIndumentaria.addEventListener("click", function() {
+        let data = new FormData()
+        data.append("indumentaria", true)
+        const tbodyInd = document.getElementById("tbodyIndumentaria")
+        fetch('db/selectProductos.php', {
+            method: "POST",
+            body: data,
+          }).then(response => response.text())
+          .then(data => {
+            tbodyInd.innerHTML = data
+          })
+          .catch(err => {
+            console.error("Error: " + err)
+            alert("Error: "+err)
+          })
+      })
     })
+    mostrarInsumos.addEventListener("click", function() {
+      let data = new FormData()
+      data.append("insumos", true)
+      const tbodyIns = document.getElementById("tbodyInsumos")
+
+      fetch('db/selectProductos.php', {
+          method: "POST",
+          body: data,
+        }).then(response => response.text())
+        .then(data => {
+          tbodyIns.innerHTML = data
+        }).catch(err => {
+          console.error("Error: " + err)
+          alert("Error: "+err)
+        })
+    })
+    mostrarDiversion.addEventListener("click",function(){
+      let data=new FormData()
+      data.append("diversion",true)
+      const tbodyDiv=document.getElementById("tbodyDiversion")
+
+      fetch ('db/selectProductos.php',{
+        method:"POST",
+        body:data,
+      }).then(response=>response.text())
+      .then(data=>{
+        tbodyDiv.innerHTML=data
+      }).catch(err=>{
+        console.error("Error: " +err)
+        alert("Error: "+err)
+      })
+    })
+
+    mostrarDonaciones.addEventListener("click",function(){
+      let data=new FormData()
+      data.append("donaciones",true)
+      const tbodyDon=document.getElementById("tbodyDonaciones")
+
+      fetch ('db/selectProductos.php',{
+        method:"POST",
+        body:data,
+      }).then(response=>response.text())
+      .then(data=>{
+        tbodyDon.innerHTML=data
+      }).catch(err=>{
+        console.error("Error: " +err)
+        alert("Error: "+err)
+      })
+    })
+
+
+    mostrarLibreria.addEventListener("click",function(){
+      let data=new FormData()
+      data.append("libreria",true)
+      const tbodyLib=document.getElementById("tbodyLibreria")
+
+      fetch ('db/selectProductos.php',{
+        method:"POST",
+        body:data,
+      }).then(response=>response.text())
+      .then(data=>{
+        tbodyLib.innerHTML=data
+      }).catch(err=>{
+        console.error("Error: " +err)
+        alert("Error: "+err)
+      })
+    })
+
+    
+    mostrarHerramientas.addEventListener("click",function(){
+      let data=new FormData()
+      data.append("herramientas",true)
+      const tbodyHer=document.getElementById("tbodyHerramientas")
+
+      fetch ('db/selectProductos.php',{
+        method:"POST",
+        body:data,
+      }).then(response=>response.text())
+      .then(data=>{
+        tbodyHer.innerHTML=data
+      }).catch(err=>{
+        console.error("Error: " +err)
+        alert("Error: "+err)
+      })
+    })
+
+    
+    mostrarKit.addEventListener("click",function(){
+      let data=new FormData()
+      data.append("kit",true)
+      const tbodyKit=document.getElementById("tbodyKit")
+
+      fetch ('db/selectProductos.php',{
+        method:"POST",
+        body:data,
+      }).then(response=>response.text())
+      .then(data=>{
+        tbodyKit.innerHTML=data
+      }).catch(err=>{
+        console.error("Error: " +err)
+        alert("Error: "+err)
+      })
+    })
+
+    mostrarComunicaciones.addEventListener("click",function(){
+      let data=new FormData()
+      data.append("comunicaciones",true)
+      const tbodyCom=document.getElementById("tbodyComunicaciones")
+
+      fetch ('db/selectProductos.php',{
+        method:"POST",
+        body:data,
+      }).then(response=>response.text())
+      .then(data=>{
+        tbodyCom.innerHTML=data
+      }).catch(err=>{
+        console.error("Error: " +err)
+        alert("Error: "+err)
+      })
+    })
+
   </script>
 </body>
 

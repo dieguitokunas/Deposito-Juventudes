@@ -52,19 +52,8 @@
         box-shadow: 0 2px 10px green;
     }
 }
-/* .inicio-contenedor article{
-} */
-
-.articulos-contenedor article{
-    /* margin: 3rem 0; */
-}
-.form-retiro{
-    width: clamp(200px,300px,900px);
-    height:300px;
-}
-.form-cargar{
-    width: clamp(200px,300px,900px);
-    height: 250px;
+.form-cargar,.form-retiro{
+    padding: 1rem;
 }
 .form-cont{
     box-shadow: 0px 4px 10px #000;
