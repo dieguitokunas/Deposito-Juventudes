@@ -157,28 +157,11 @@ require './db/selectProductos.php';
   <?php
   include './vistas/modalRetiro.php';
   include './vistas/modalCargar.php';
-  include './vistas/tecnologia.php';
-  include './vistas/indumentaria.php';
-  include './vistas/insumos.php';
-  include './vistas/diversion.php';
-  include './vistas/donaciones.php';
-  include './vistas/kit.php';
-  include './vistas/libreria.php';
-  include './vistas/herramientas.php';
-  include './vistas/comunicaciones.php';
+  include './vistas/modalEditar.php';
+  include './vistas/productos.php';
   ?>
   <script src="./js/bootstrap.bundle.min.js"></script>
-  <script src="./js/modalRetiro.js"></script>
-  <script src="./js/modalCargar.js"></script>
-  <script src="./js/mostrarTecnologia.js"></script>
-  <script src="./js/mostrarIndumentaria.js"></script>
-  <script src="./js/mostrarInsumos.js"></script>
-  <script src="./js/mostrarDiversion.js"></script>
-  <script src="./js/mostrarDonaciones.js"></script>
-  <script src="./js/mostrarKit.js"></script>
-  <script src="./js/mostrarLibreria.js"></script>
-  <script src="./js/mostrarHerramientas.js"></script>
-  <script src="./js/mostrarComunicaciones.js"></script>
+  <script src="./js/mostrar.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
 
@@ -220,6 +203,28 @@ require './db/selectProductos.php';
           }).then(response => response.text())
           .then(data => {
             tbodyTec.innerHTML = data
+            const buttonsEditar=document.querySelectorAll(".buttonEditar")
+            const productoEditar=document.getElementById("productoEditar")
+            const stockEditar=document.getElementById("stockEditar")
+            buttonsEditar.forEach(button=>{
+              button.addEventListener("click", function(){
+                const row=this.closest("tr")
+                const celdas=row.querySelectorAll("td")
+                const datos=[]
+                
+                celdas.forEach(celda=>{
+                  datos.push(celda.textContent)
+                })
+                productoEditar.value=datos[0]
+                stockEditar.value=datos[1]
+                const idProducto=button.getAttribute("data-id")
+                modalEditar.classList.remove("d-none")
+                modalEditar.classList.add("d-block")
+              })
+            })
+          
+          
+
           })
           .catch(err => {
             console.error("Error: " + err)
@@ -236,6 +241,38 @@ require './db/selectProductos.php';
           }).then(response => response.text())
           .then(data => {
             tbodyInd.innerHTML = data
+
+            const labelTalle=document.getElementById("labelTalle")
+            const labelColor=document.getElementById("labelColor")
+            const talleEditar=document.getElementById("talleEditar")
+            const colorEditar=document.getElementById("colorEditar")
+
+
+            const buttonsEditar=document.querySelectorAll(".buttonEditar")
+            const productoEditar=document.getElementById("productoEditar")
+            const stockEditar=document.getElementById("stockEditar")
+            buttonsEditar.forEach(button=>{
+              button.addEventListener("click", function(){
+                const row=this.closest("tr")
+                const celdas=row.querySelectorAll("td")
+                const datos=[]
+
+                celdas.forEach(celda=>{
+                  datos.push(celda.textContent)
+                })
+                productoEditar.value=datos[0]
+                stockEditar.value=datos[3]
+
+                modalEditar.classList.remove("d-none")
+                modalEditar.classList.add("d-block")
+                labelColor.classList.remove("d-none")
+                labelColor.classList.add("d-block")
+                labelTalle.classList.remove("d-none")
+                labelTalle.classList.add("d-block")
+              })
+            })
+
+
           })
           .catch(err => {
             console.error("Error: " + err)
@@ -254,7 +291,28 @@ require './db/selectProductos.php';
         }).then(response => response.text())
         .then(data => {
           tbodyIns.innerHTML = data
-        }).catch(err => {
+          const buttonsEditar=document.querySelectorAll(".buttonEditar")
+            const productoEditar=document.getElementById("productoEditar")
+            const stockEditar=document.getElementById("stockEditar")
+            buttonsEditar.forEach(button=>{
+              button.addEventListener("click", function(){
+                const row=this.closest("tr")
+                const celdas=row.querySelectorAll("td")
+                const datos=[]
+
+                celdas.forEach(celda=>{
+                  datos.push(celda.textContent)
+                })
+                productoEditar.value=datos[0]
+                stockEditar.value=datos[1]
+
+                modalEditar.classList.remove("d-none")
+                modalEditar.classList.add("d-block")
+              })
+            })
+          
+          
+          }).catch(err => {
           console.error("Error: " + err)
           alert("Error: "+err)
         })
@@ -270,6 +328,28 @@ require './db/selectProductos.php';
       }).then(response=>response.text())
       .then(data=>{
         tbodyDiv.innerHTML=data
+
+        const buttonsEditar=document.querySelectorAll(".buttonEditar")
+            const productoEditar=document.getElementById("productoEditar")
+            const stockEditar=document.getElementById("stockEditar")
+            buttonsEditar.forEach(button=>{
+              button.addEventListener("click", function(){
+                const row=this.closest("tr")
+                const celdas=row.querySelectorAll("td")
+                const datos=[]
+
+                celdas.forEach(celda=>{
+                  datos.push(celda.textContent)
+                })
+                productoEditar.value=datos[0]
+                stockEditar.value=datos[1]
+
+                modalEditar.classList.remove("d-none")
+                modalEditar.classList.add("d-block")
+              })
+            })
+          
+          
       }).catch(err=>{
         console.error("Error: " +err)
         alert("Error: "+err)
@@ -287,6 +367,28 @@ require './db/selectProductos.php';
       }).then(response=>response.text())
       .then(data=>{
         tbodyDon.innerHTML=data
+
+        const buttonsEditar=document.querySelectorAll(".buttonEditar")
+            const productoEditar=document.getElementById("productoEditar")
+            const stockEditar=document.getElementById("stockEditar")
+            buttonsEditar.forEach(button=>{
+              button.addEventListener("click", function(){
+                const row=this.closest("tr")
+                const celdas=row.querySelectorAll("td")
+                const datos=[]
+
+                celdas.forEach(celda=>{
+                  datos.push(celda.textContent)
+                })
+                productoEditar.value=datos[0]
+                stockEditar.value=datos[1]
+
+                modalEditar.classList.remove("d-none")
+                modalEditar.classList.add("d-block")
+              })
+            })
+          
+
       }).catch(err=>{
         console.error("Error: " +err)
         alert("Error: "+err)
@@ -305,7 +407,28 @@ require './db/selectProductos.php';
       }).then(response=>response.text())
       .then(data=>{
         tbodyLib.innerHTML=data
-      }).catch(err=>{
+     
+        const buttonsEditar=document.querySelectorAll(".buttonEditar")
+            const productoEditar=document.getElementById("productoEditar")
+            const stockEditar=document.getElementById("stockEditar")
+            buttonsEditar.forEach(button=>{
+              button.addEventListener("click", function(){
+                const row=this.closest("tr")
+                const celdas=row.querySelectorAll("td")
+                const datos=[]
+
+                celdas.forEach(celda=>{
+                  datos.push(celda.textContent)
+                })
+                productoEditar.value=datos[0]
+                stockEditar.value=datos[1]
+
+                modalEditar.classList.remove("d-none")
+                modalEditar.classList.add("d-block")
+              })
+            })
+          
+           }).catch(err=>{
         console.error("Error: " +err)
         alert("Error: "+err)
       })
@@ -323,6 +446,28 @@ require './db/selectProductos.php';
       }).then(response=>response.text())
       .then(data=>{
         tbodyHer.innerHTML=data
+     
+        const buttonsEditar=document.querySelectorAll(".buttonEditar")
+            const productoEditar=document.getElementById("productoEditar")
+            const stockEditar=document.getElementById("stockEditar")
+            buttonsEditar.forEach(button=>{
+              button.addEventListener("click", function(){
+                const row=this.closest("tr")
+                const celdas=row.querySelectorAll("td")
+                const datos=[]
+
+                celdas.forEach(celda=>{
+                  datos.push(celda.textContent)
+                })
+                productoEditar.value=datos[0]
+                stockEditar.value=datos[1]
+
+                modalEditar.classList.remove("d-none")
+                modalEditar.classList.add("d-block")
+              })
+            })
+          
+          
       }).catch(err=>{
         console.error("Error: " +err)
         alert("Error: "+err)
@@ -341,6 +486,26 @@ require './db/selectProductos.php';
       }).then(response=>response.text())
       .then(data=>{
         tbodyKit.innerHTML=data
+        const buttonsEditar=document.querySelectorAll(".buttonEditar")
+            const productoEditar=document.getElementById("productoEditar")
+            const stockEditar=document.getElementById("stockEditar")
+            buttonsEditar.forEach(button=>{
+              button.addEventListener("click", function(){
+                const row=this.closest("tr")
+                const celdas=row.querySelectorAll("td")
+                const datos=[]
+
+                celdas.forEach(celda=>{
+                  datos.push(celda.textContent)
+                })
+                productoEditar.value=datos[0]
+                stockEditar.value=datos[1]
+
+                modalEditar.classList.remove("d-none")
+                modalEditar.classList.add("d-block")
+              })
+            })
+          
       }).catch(err=>{
         console.error("Error: " +err)
         alert("Error: "+err)
@@ -358,13 +523,49 @@ require './db/selectProductos.php';
       }).then(response=>response.text())
       .then(data=>{
         tbodyCom.innerHTML=data
+        const buttonsEditar=document.querySelectorAll(".buttonEditar")
+            const productoEditar=document.getElementById("productoEditar")
+            const stockEditar=document.getElementById("stockEditar")
+            buttonsEditar.forEach(button=>{
+              button.addEventListener("click", function(){
+                const row=this.closest("tr")
+                const celdas=row.querySelectorAll("td")
+                const datos=[]
+
+                celdas.forEach(celda=>{
+                  datos.push(celda.textContent)
+                })
+                productoEditar.value=datos[0]
+                stockEditar.value=datos[1]
+
+                modalEditar.classList.remove("d-none")
+                modalEditar.classList.add("d-block")
+              })
+            })
+          
+          
       }).catch(err=>{
         console.error("Error: " +err)
         alert("Error: "+err)
       })
+
+
+
+      
+      
+      const enviarEditar=document.getElementById("enviarEditar")
+
+    enviarEditar.addEventListener("click",function(e){
+        e.preventDefault()
+        console.log(idProducto)
+        // fetch('./db/')
+    })
     })
 
-  </script>
+
+
+
+    </script>
 </body>
 
 </html>

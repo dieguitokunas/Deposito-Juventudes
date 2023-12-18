@@ -1,3 +1,4 @@
+
 <div class="modal d-none position-fixed w-100 h-100  d-flex justify-content-center align-items-center " id="modal-cargar">
   <div class=" form-cont d-flex justify-content-center bg-primary br-4 p-4 gap-2">
 
@@ -69,7 +70,6 @@
   document.addEventListener("DOMContentLoaded", function() {
     const cargarCategoria = document.getElementById("cargarCategoria")
     const cargarNombreProducto = document.getElementById("cargarNombreProducto")
-    const cantidad = document.getElementById("cantidad")
     const cargarTalle = document.getElementById("cargarTalle")
     const cargarColor = document.getElementById("cargarColor")
     const inputCantidad = document.getElementById("cantidad")
@@ -80,6 +80,19 @@
     const contTalles = document.getElementById("contTalles")
     const contColores = document.getElementById("contColores")
 
+    mostrarCargar.addEventListener("click", function() {
+      cargarCategoria.value = ""
+      cargarNombreProducto.value = ""
+      inputCantidad.value = ""
+      cargarTalle.value = ""
+      cargarColor.value = ""
+      alertError.classList.remove("d-block")
+      alertError.classList.add("d-none")
+      alertSuccess.classList.add("d-none")
+      alertSuccess.classList.remove("d-block")
+    })
+
+
     botonCargar.addEventListener("click", function(e) {
       e.preventDefault()
 
@@ -88,7 +101,7 @@
       const data = new FormData()
       let categoriaValue = cargarCategoria.value
       let productoValue = cargarNombreProducto.value
-      let cantidadValue = cantidad.value
+      let cantidadValue = inputCantidad.value
       let talleValue = cargarTalle.value
       let colorValue = cargarColor.value
       let comprobar = false

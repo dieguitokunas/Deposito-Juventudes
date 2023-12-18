@@ -23,6 +23,7 @@
 }
 
 .min-w-f{width: fit-content;}
+.max-w-f{width: fit-content;}
 .max-w-100{
     width: 100%;
 }

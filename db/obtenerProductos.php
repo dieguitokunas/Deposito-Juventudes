@@ -15,8 +15,8 @@ $todasCategorias = [
 
 if (isset($_POST["categoria"]) && !empty($_POST["categoria"])) {
     $categoria = $_POST["categoria"];
-    $nombreCategoria=$todasCategorias[$categoria];
-    $id="id_".$nombreCategoria;
+    $nombreCategoria = $todasCategorias[$categoria];
+    $id = "id_" . $nombreCategoria;
     $sql = $con->prepare("SELECT * FROM $nombreCategoria");
     $sql->execute();
     $respuestaCategoria = $sql->get_result();
@@ -42,12 +42,12 @@ if (isset($_POST["producto"]) && !empty($_POST["producto"])) {
     $sqlProducto = $con->prepare("SELECT * FROM $productoProducto WHERE $idProducto = ?");
     $sqlProducto->bind_param("s", $productoEnviado);
     $sqlProducto->execute();
-        $respuestaProducto = $sqlProducto->get_result();
-        if ($respuestaProducto->num_rows>0){
-           $row = $respuestaProducto->fetch_object();
-           $respuesta = $row->stock;
-        }else{
-            $respuesta = 0;
-        }
+    $respuestaProducto = $sqlProducto->get_result();
+    if ($respuestaProducto->num_rows > 0) {
+        $row = $respuestaProducto->fetch_object();
+        $respuesta = $row->stock;
+    } else {
+        $respuesta = 0;
+    }
     echo json_encode($respuesta);
 }
