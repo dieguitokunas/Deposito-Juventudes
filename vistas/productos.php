@@ -184,7 +184,7 @@
           <th>Eliminar</th>
         </tr>
       </thead>
-      <tbody id="tbodyComunicaciones">
+      <tbody id="tbodyComunicacion">
       </tbody>
     </table>
   </section>

@@ -36,7 +36,7 @@
         <input class="w-50p" type="number" name="" id="retiroCantidad" min="1" inputmode="numeric">
       </div>
       <div class="alert bg-warning text-white text-center d-none" id="alertRetiroWarning">
-        <span>Ingrese una cantidad valida</span>
+        <span>Complete el formulario</span>
       </div>
       <div class="alert bg-danger text-center text-white d-none" id="alertRetiroError">
         <span>Hubo un problema al realizar el retiro</span>
@@ -52,7 +52,6 @@
   </div>
 </div>
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
     const categoria = document.getElementById("retiroCategoria")
     const producto = document.getElementById("retiroProducto")
     const descripcion = document.getElementById("retiroDescripcion")
@@ -65,7 +64,7 @@
     let stockMaximo = 0
     retiroCantidad.readOnly = true
 
-    mostrarRetiro.addEventListener("click", function() {
+    mostrarRetiro.onclick= function() {
       categoria.value = ""
       producto.value = ""
       cantidad.value = ""
@@ -76,7 +75,9 @@
       alertRetiroSuccess.classList.add("d-none")
       alertRetiroError.classList.remove("d-block")
       alertRetiroError.classList.add("d-none")
-    })
+      alertRetiroWarning.classList.remove("d-block")
+      alertRetiroWarning.classList.add("d-none")
+    }
 
     categoria.addEventListener("change", function() {
       let catval = categoria.value
@@ -132,10 +133,10 @@
       alertRetiroSuccess.classList.add("d-none")
       alertRetiroError.classList.remove("d-block")
       alertRetiroError.classList.add("d-none")
-      if (cantidadToInt<10&&(cantidadToInt>0)){
+      if (cantidadToInt<10&&cantidadToInt>0){
         retiroCantidad.value="0"+retiroCantidad.value.slice()
       }
-      if (cantidadToInt > stockToInt || cantidadToInt <= 0) {
+      if (cantidadToInt > stockToInt ) {
         alertRetiroWarning.classList.remove("d-none")
         alertRetiroWarning.classList.add("d-block")
         retiroCantidad.value =""
@@ -145,19 +146,25 @@
       }
     })
 
-    registrarRetiro.addEventListener("click", function(e) {
+    registrarRetiro.addEventListener("click",function(e) {
       e.preventDefault()
       let retiroCategoria = categoria.value
       let retiroProducto = producto.value
       let retiroCantidad = cantidad.value
       let retiroDescripcion = descripcion.value
+
+      if(retiroCantidad!==0||retiroProducto!==0||retiroCantidad!==0||retiroDescripcion!==0){
+        status=true
+      }
+
       let data = new FormData()
 
       data.append("categoria", retiroCategoria)
       data.append("producto", retiroProducto)
       data.append("cantidad", retiroCantidad)
       data.append("descripcion", retiroDescripcion)
-      fetch('db/registrarRetiro.php', {
+      if(status){
+        fetch('db/registrarRetiro.php', {
           method: "POST",
           body: data,
         }).then(response => response.text())
@@ -176,11 +183,14 @@
             alertRetiroSuccess.classList.add("d-none")
             alertRetiroError.classList.add("d-block")
             alertRetiroError.classList.remove("d-none")
-
+            
           }
         }).catch(err => {
           console.error("Error: " + err)
         })
-    })
-  })
+      }else{
+        alertRetiroWarning.classList.remove("d-none")
+        alertRetiroWarning.classList.add("d-block")
+      }
+      })
 </script>

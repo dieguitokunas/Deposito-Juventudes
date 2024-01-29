@@ -4,6 +4,8 @@
             <div class="form-header d-flex justify-content-end ">
                 <i class="fa-solid fa-xmark h3 cerrar" id="cerrar-editar"></i>
             </div>
+            <input type="text" name="" id="idEditar" class="d-none">
+            <input type="text" name="" id="categoriaEditar" class="d-none">
             <span class="text-white text-center h4">Editar producto </span>
 
             <label for="productoEditar" class="text-white d-flex justify-content-between gap-4">Nombre del producto:
@@ -11,36 +13,45 @@
             </label>
 
 
-            <label for="talleEditar" class="d-none text-white d-flex justify-content-between gap-4" id="labelTalle"> Talle: 
+            <label for="talleEditar" class="d-none text-white d-flex justify-content-between gap-4" id="labelTalle"> Talle:
                 <select id="talleEditar">
                     <?php
-                    $talles=$con->query("SELECT * FROM talles");
-                    while ($row=$talles->fetch_object()){
-                        echo ' <option value="'.$row->id_talles.'">'.$row->talle_tipo1.'/'.$row->talle_tipo2.'/'.$row->talle_tipo3.'</option>';
+                    $talles = $con->query("SELECT * FROM talles");
+                    while ($row = $talles->fetch_object()) {
+                        echo ' <option value="' . $row->id_talles . '">' . $row->talle_tipo1 . '/' . $row->talle_tipo2 . '/' . $row->talle_tipo3 . '</option>';
                     }
                     ?>
                 </select>
             </label>
 
 
-            <label for="colorEditar" class="d-none text-white d-flex justify-content-between gap-4" id="labelColor"> Color: 
+            <label for="colorEditar" class="d-none text-white d-flex justify-content-between gap-4" id="labelColor"> Color:
                 <select id="colorEditar">
                     <?php
-                    $colores=$con->query("SELECT * FROM colores");
-                    while ($row=$colores->fetch_object()){
-                        echo ' <option value="'.$row->id_colores.'">'.$row->colores.'</option>';
+                    $colores = $con->query("SELECT * FROM colores");
+                    while ($row = $colores->fetch_object()) {
+                        echo ' <option value="' . $row->id_colores . '">' . $row->colores . '</option>';
                     }
                     ?>
                 </select>
             </label>
 
 
-            <label for="stockEditar" class="text-white d-flex justify-content-between">Stock del producto: 
+            <label for="stockEditar" class="text-white d-flex justify-content-between">Stock del producto:
                 <input type="number" id="stockEditar">
             </label>
-<div class="d-flex justify-content-center">
-    <input type="submit" value="Guardar modificaciones" class="btn btn-warning w-300" id="enviarEditar">
-</div>
+            <div class="alert bg-danger text-center text-white d-none" id="alertEditarError">
+                <span>Hubo un problema al actualizar el producto</span>
+            </div>
+            <div class="alert bg-success text-center text-white d-none" id="alertEditarSuccess">
+                <span>Producto actualizado con exito</span>
+            </div>
+            <div class="d-flex justify-content-center">
+                <input type="submit" value="Guardar modificaciones" class="btn btn-warning w-300" id="enviarEditar">
+            </div>
         </form>
     </div>
 </div>
+<script>
+   
+</script>

@@ -28,7 +28,7 @@
 
       <div class="d-flex justify-content-between align-items-center d-none" id="contTalles">
         <label for="cargarTalle">Talle: </label>
-        <select name="talle" id="cargarTalle" required>
+        <select  id="cargarTalle" required>
           <option value="">Talle</option>
 
           <?php
@@ -42,7 +42,7 @@
 
       <div class="d-flex justify-content-between align-items-center d-none" id="contColores">
         <label for="cargarColor">Color: </label>
-        <select name="color" id="cargarColor" required>
+        <select id="cargarColor" required>
           <option value="">Color</option>
           <?php
           $color = $con->query("SELECT * FROM colores");
@@ -67,7 +67,6 @@
   </div>
 </div>
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
     const cargarCategoria = document.getElementById("cargarCategoria")
     const cargarNombreProducto = document.getElementById("cargarNombreProducto")
     const cargarTalle = document.getElementById("cargarTalle")
@@ -90,6 +89,8 @@
       alertError.classList.add("d-none")
       alertSuccess.classList.add("d-none")
       alertSuccess.classList.remove("d-block")
+      alertWarning.classList.add("d-none")
+      alertWarning.classList.remove("d-block")
     })
 
 
@@ -146,19 +147,19 @@
       }
     })
 
-    inputCantidad.addEventListener("input", function() {
+    inputCantidad.addEventListener("focusout", function() {
       const rgExpress = /[0-9]/;
       const alertInput = document.getElementById("alertInput")
 
-      if (!rgExpress.test(inputCantidad.value)) {
-        inputCantidad.value = inputCantidad.value.slice(0, -1)
+      if (!rgExpress.test(inputCantidad.value)||parseInt(inputCantidad.value,10)<1) {
+        inputCantidad.value = ""
         if (alertInput.classList.contains("d-none")) {
           alertInput.classList.remove("d-none")
         } else {
           alertInput.classList.add("d-none")
         }
       }
-    });
+    })
 
 
 
@@ -176,7 +177,5 @@
       }
     })
 
-    const producto = document.getElementById("cargarProducto")
 
-  })
 </script>

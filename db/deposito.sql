@@ -2,7 +2,7 @@
 --
 -- Host: 127.0.0.1    Database: deposito
 -- ------------------------------------------------------
--- Server version	5.5.5-10.4.28-MariaDB
+-- Server version	5.5.5-10.4.32-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,6 +18,10 @@
 --
 -- Table structure for table `categorias`
 --
+
+CREATE Database deposito;
+USE deposito;
+
 
 DROP TABLE IF EXISTS `categorias`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -78,7 +82,7 @@ CREATE TABLE `productos_comunicacion` (
   PRIMARY KEY (`id_productos_comunicacion`),
   KEY `id_categoria` (`id_categoria`),
   CONSTRAINT `productos_comunicacion_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +109,7 @@ CREATE TABLE `productos_diversion` (
   PRIMARY KEY (`id_productos_diversion`),
   KEY `id_categoria` (`id_categoria`),
   CONSTRAINT `productos_diversion_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,7 +136,7 @@ CREATE TABLE `productos_donaciones` (
   PRIMARY KEY (`id_productos_donaciones`),
   KEY `id_categoria` (`id_categoria`),
   CONSTRAINT `productos_donaciones_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +163,7 @@ CREATE TABLE `productos_herramientas` (
   PRIMARY KEY (`id_productos_herramientas`),
   KEY `id_categoria` (`id_categoria`),
   CONSTRAINT `productos_herramientas_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,7 +196,7 @@ CREATE TABLE `productos_indumentaria` (
   CONSTRAINT `productos_indumentaria_ibfk_1` FOREIGN KEY (`id_talle`) REFERENCES `talles` (`id_talles`),
   CONSTRAINT `productos_indumentaria_ibfk_2` FOREIGN KEY (`id_color`) REFERENCES `colores` (`id_colores`),
   CONSTRAINT `productos_indumentaria_ibfk_3` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +205,6 @@ CREATE TABLE `productos_indumentaria` (
 
 LOCK TABLES `productos_indumentaria` WRITE;
 /*!40000 ALTER TABLE `productos_indumentaria` DISABLE KEYS */;
-INSERT INTO `productos_indumentaria` VALUES (6,2,'remeras',1,1,'10'),(7,2,'buzos',4,1,'20');
 /*!40000 ALTER TABLE `productos_indumentaria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,7 +223,7 @@ CREATE TABLE `productos_insumos` (
   PRIMARY KEY (`id_productos_insumos`),
   KEY `id_categoria` (`id_categoria`),
   CONSTRAINT `productos_insumos_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -247,7 +250,7 @@ CREATE TABLE `productos_kit_escolar` (
   PRIMARY KEY (`id_productos_kit_escolar`),
   KEY `id_categoria` (`id_categoria`),
   CONSTRAINT `productos_kit_escolar_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -274,7 +277,7 @@ CREATE TABLE `productos_libreria` (
   PRIMARY KEY (`id_productos_libreria`),
   KEY `id_categoria` (`id_categoria`),
   CONSTRAINT `productos_libreria_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -301,7 +304,7 @@ CREATE TABLE `productos_tecnologia` (
   PRIMARY KEY (`id_productos_tecnologia`),
   KEY `id_categoria` (`id_categoria`),
   CONSTRAINT `productos_tecnologia_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -310,8 +313,35 @@ CREATE TABLE `productos_tecnologia` (
 
 LOCK TABLES `productos_tecnologia` WRITE;
 /*!40000 ALTER TABLE `productos_tecnologia` DISABLE KEYS */;
-INSERT INTO `productos_tecnologia` VALUES (1,1,'tablet','10'),(2,1,'celulares','20');
 /*!40000 ALTER TABLE `productos_tecnologia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `retiros`
+--
+
+DROP TABLE IF EXISTS `retiros`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `retiros` (
+  `id_retiro` int(11) NOT NULL AUTO_INCREMENT,
+  `id_categoria` int(11) DEFAULT NULL,
+  `producto` varchar(100) DEFAULT NULL,
+  `cantidad_retirada` int(11) DEFAULT NULL,
+  `descripcion` varchar(250) DEFAULT NULL,
+  `fecha_retiro` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id_retiro`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `retiros`
+--
+
+LOCK TABLES `retiros` WRITE;
+/*!40000 ALTER TABLE `retiros` DISABLE KEYS */;
+INSERT INTO `retiros` VALUES (37,1,'48',9,'asdas','2023-12-20 23:49:08'),(38,1,'49',50,'retiro de 50 pc\r\n','2023-12-20 23:50:31'),(39,1,'49',50,'','2023-12-20 23:50:57');
+/*!40000 ALTER TABLE `retiros` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -349,4 +379,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-05  9:18:58
+-- Dump completed on 2024-01-19 14:47:37

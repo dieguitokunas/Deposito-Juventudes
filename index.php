@@ -161,18 +161,17 @@ require './db/selectProductos.php';
   include './vistas/productos.php';
   ?>
   <script src="./js/bootstrap.bundle.min.js"></script>
-  <script src="./js/mostrar.js"></script>
+  
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    
+    const linkInicio = document.getElementById("inicio-link")
+    
+    const inicio = document.getElementById("inicio")
+    
+    
 
-      const linkInicio = document.getElementById("inicio-link")
-
-      const inicio = document.getElementById("inicio")
-
-
-
-      linkInicio.addEventListener("click", function() {
-        inicio.classList.add("d-block")
+    linkInicio.onclick= function() {
+      inicio.classList.add("d-block")
         inicio.classList.remove("d-none")
         productosTecnologia.classList.remove("d-block")
         productosTecnologia.classList.add("d-none")
@@ -192,380 +191,205 @@ require './db/selectProductos.php';
         productosHerramientas.classList.add("d-none")
         productosComunicaciones.classList.remove("d-block")
         productosComunicaciones.classList.add("d-none")
-      })
-      mostrarTecnologia.addEventListener("click", function() {
-        let data = new FormData()
-        data.append("tecnologia", true)
-        const tbodyTec = document.getElementById("tbodyTecnologia")
+      }
+      const todasCategorias = [
+        "tecnologia",
+        "indumentaria",
+        "kit",
+        "donaciones",
+        "libreria",
+        "herramientas",
+        "comunicacion",
+        "diversion",
+        "insumos"
+      ]
+      const todosTbody = [
+        "tbodyTecnologia",
+        "tbodyIndumentaria",
+        "tbodyKit",
+        "tbodyDonaciones",
+        "tbodyLibreria",
+        "tbodyHerramientas",
+        "tbodyComunicacion",
+        "tbodyDiversion",
+        "tbodyInsumos"
+      ]
+
+
+      mostrarTecnologia.onclick= function() {
+        getProductos(0)
+      }
+      mostrarIndumentaria.onclick= function() {
+        getProductos(1)
+      }
+      mostrarKit.onclick= function() {
+        getProductos(2)
+      }
+      mostrarDonaciones.onclick= function() {
+        getProductos(3)
+      }
+      mostrarLibreria.onclick= function() {
+        getProductos(4)
+      }
+      mostrarHerramientas.onclick= function() {
+        getProductos(5)
+      }
+      mostrarComunicaciones.onclick= function() {
+        getProductos(6)
+      }
+      mostrarDiversion.onclick= function() {
+        getProductos(7)
+      }
+      mostrarInsumos.onclick= function() {
+        getProductos(8)
+      }
+
+      function getProductos(id) {
+        let formdata = new FormData()
+        let categoria = todasCategorias[id]
+        let tbodyId = todosTbody[id]
+        let tbody = document.getElementById(tbodyId)
+        formdata.append(categoria, true)
         fetch('db/selectProductos.php', {
             method: "POST",
-            body: data,
+            body: formdata,
           }).then(response => response.text())
           .then(data => {
-            tbodyTec.innerHTML = data
-            const buttonsEditar=document.querySelectorAll(".buttonEditar")
-            const productoEditar=document.getElementById("productoEditar")
-            const stockEditar=document.getElementById("stockEditar")
-            buttonsEditar.forEach(button=>{
-              button.addEventListener("click", function(){
-                const row=this.closest("tr")
-                const celdas=row.querySelectorAll("td")
-                const datos=[]
-                
-                celdas.forEach(celda=>{
+            tbody.innerHTML = data
+            const buttonsEditar = document.querySelectorAll(".buttonEditar")
+            const buttonsEliminar = document.querySelectorAll(".buttonEliminar")
+            const labelColor = document.getElementById("labelColor")
+            const labelTalle = document.getElementById("labelTalle")
+            const productoEditar = document.getElementById("productoEditar")
+            const stockEditar = document.getElementById("stockEditar")
+            const idEditar = document.getElementById("idEditar")
+            const categoriaEditar = document.getElementById("categoriaEditar")
+            
+            buttonsEditar.forEach(button => {
+              button.onclick= function() {
+                const row = this.closest("tr")
+                const celdas = row.querySelectorAll("td")
+                const datos = []
+
+                celdas.forEach(celda => {
                   datos.push(celda.textContent)
                 })
-                productoEditar.value=datos[0]
-                stockEditar.value=datos[1]
-                const idProducto=button.getAttribute("data-id")
+                categoriaEditar.value = datos[0]
+                idEditar.value = datos[1]
+                productoEditar.value = datos[2]
+                if (parseInt(categoriaEditar.value, 10) === 2) {
+                  stockEditar.value = datos[5]
+                  labelTalle.classList.remove("d-none")
+                  labelTalle.classList.add("d-block")
+                  labelColor.classList.remove("d-none")
+                  labelColor.classList.add("d-block")
+                } else {
+                  labelTalle.classList.add("d-none")
+                  labelTalle.classList.remove("d-block")
+                  labelColor.classList.add("d-none")
+                  labelColor.classList.remove("d-block")
+                  stockEditar.value = datos[3]
+                }
+                const idProducto = button.getAttribute("data-id")
                 modalEditar.classList.remove("d-none")
                 modalEditar.classList.add("d-block")
-              })
+              }
             })
-          
-          
+            buttonsEliminar.forEach(button => {
+              button.onclick = function() {
+                let idProducto = button.getAttribute("data-id")
+                let idCategoria = button.getAttribute("data-categoria")
+                let formdata = new FormData()
+                formdata.append("idProducto", idProducto)
+                formdata.append("idCategoria", idCategoria)
 
+                fetch('db/eliminarProducto.php', {
+                    method: "POST",
+                    body: formdata,
+                  }).then(response => response.text())
+                  .then(data => {
+                    let select = new FormData()
+                    select.append(categoria, true)
+
+                    fetch('db/selectProductos.php', {
+                        method: "POST",
+                        body: select,
+                      }).then(responseSelect => responseSelect.text())
+                      .then(dataSelect => {
+                        tbody.innerHTML = dataSelect
+                        getProductos(id)
+                      })
+
+                  }).catch(err => {
+                    console.error("Error: " + err)
+                  })
+              }
+            })
           })
-          .catch(err => {
-            console.error("Error: " + err)
-            alert("Error: "+err)
-          })
-      })
-      mostrarIndumentaria.addEventListener("click", function() {
-        let data = new FormData()
-        data.append("indumentaria", true)
-        const tbodyInd = document.getElementById("tbodyIndumentaria")
-        fetch('db/selectProductos.php', {
-            method: "POST",
-            body: data,
-          }).then(response => response.text())
-          .then(data => {
-            tbodyInd.innerHTML = data
+      }
 
-            const labelTalle=document.getElementById("labelTalle")
-            const labelColor=document.getElementById("labelColor")
-            const talleEditar=document.getElementById("talleEditar")
-            const colorEditar=document.getElementById("colorEditar")
+      const enviarEditar = document.getElementById("enviarEditar")
+
+      enviarEditar.onclick= function(e) {
+        const idEditar = document.getElementById("idEditar")
+        const categoriaEditar = document.getElementById("categoriaEditar")
+        const productoEditar = document.getElementById("productoEditar")
+        const stockEditar = document.getElementById("stockEditar")
+        const talleEditar = document.getElementById("talleEditar")
+        const colorEditar = document.getElementById("colorEditar")
+        const alertEditarError = document.getElementById("alertEditarError")
+        const alertEditarSuccess = document.getElementById("alertEditarSuccess")
 
 
-            const buttonsEditar=document.querySelectorAll(".buttonEditar")
-            const productoEditar=document.getElementById("productoEditar")
-            const stockEditar=document.getElementById("stockEditar")
-            buttonsEditar.forEach(button=>{
-              button.addEventListener("click", function(){
-                const row=this.closest("tr")
-                const celdas=row.querySelectorAll("td")
-                const datos=[]
-
-                celdas.forEach(celda=>{
-                  datos.push(celda.textContent)
-                })
-                productoEditar.value=datos[0]
-                stockEditar.value=datos[3]
-
-                modalEditar.classList.remove("d-none")
-                modalEditar.classList.add("d-block")
-                labelColor.classList.remove("d-none")
-                labelColor.classList.add("d-block")
-                labelTalle.classList.remove("d-none")
-                labelTalle.classList.add("d-block")
-              })
-            })
-
-
-          })
-          .catch(err => {
-            console.error("Error: " + err)
-            alert("Error: "+err)
-          })
-      })
-    })
-    mostrarInsumos.addEventListener("click", function() {
-      let data = new FormData()
-      data.append("insumos", true)
-      const tbodyIns = document.getElementById("tbodyInsumos")
-
-      fetch('db/selectProductos.php', {
-          method: "POST",
-          body: data,
-        }).then(response => response.text())
-        .then(data => {
-          tbodyIns.innerHTML = data
-          const buttonsEditar=document.querySelectorAll(".buttonEditar")
-            const productoEditar=document.getElementById("productoEditar")
-            const stockEditar=document.getElementById("stockEditar")
-            buttonsEditar.forEach(button=>{
-              button.addEventListener("click", function(){
-                const row=this.closest("tr")
-                const celdas=row.querySelectorAll("td")
-                const datos=[]
-
-                celdas.forEach(celda=>{
-                  datos.push(celda.textContent)
-                })
-                productoEditar.value=datos[0]
-                stockEditar.value=datos[1]
-
-                modalEditar.classList.remove("d-none")
-                modalEditar.classList.add("d-block")
-              })
-            })
-          
-          
-          }).catch(err => {
-          console.error("Error: " + err)
-          alert("Error: "+err)
-        })
-    })
-    mostrarDiversion.addEventListener("click",function(){
-      let data=new FormData()
-      data.append("diversion",true)
-      const tbodyDiv=document.getElementById("tbodyDiversion")
-
-      fetch ('db/selectProductos.php',{
-        method:"POST",
-        body:data,
-      }).then(response=>response.text())
-      .then(data=>{
-        tbodyDiv.innerHTML=data
-
-        const buttonsEditar=document.querySelectorAll(".buttonEditar")
-            const productoEditar=document.getElementById("productoEditar")
-            const stockEditar=document.getElementById("stockEditar")
-            buttonsEditar.forEach(button=>{
-              button.addEventListener("click", function(){
-                const row=this.closest("tr")
-                const celdas=row.querySelectorAll("td")
-                const datos=[]
-
-                celdas.forEach(celda=>{
-                  datos.push(celda.textContent)
-                })
-                productoEditar.value=datos[0]
-                stockEditar.value=datos[1]
-
-                modalEditar.classList.remove("d-none")
-                modalEditar.classList.add("d-block")
-              })
-            })
-          
-          
-      }).catch(err=>{
-        console.error("Error: " +err)
-        alert("Error: "+err)
-      })
-    })
-
-    mostrarDonaciones.addEventListener("click",function(){
-      let data=new FormData()
-      data.append("donaciones",true)
-      const tbodyDon=document.getElementById("tbodyDonaciones")
-
-      fetch ('db/selectProductos.php',{
-        method:"POST",
-        body:data,
-      }).then(response=>response.text())
-      .then(data=>{
-        tbodyDon.innerHTML=data
-
-        const buttonsEditar=document.querySelectorAll(".buttonEditar")
-            const productoEditar=document.getElementById("productoEditar")
-            const stockEditar=document.getElementById("stockEditar")
-            buttonsEditar.forEach(button=>{
-              button.addEventListener("click", function(){
-                const row=this.closest("tr")
-                const celdas=row.querySelectorAll("td")
-                const datos=[]
-
-                celdas.forEach(celda=>{
-                  datos.push(celda.textContent)
-                })
-                productoEditar.value=datos[0]
-                stockEditar.value=datos[1]
-
-                modalEditar.classList.remove("d-none")
-                modalEditar.classList.add("d-block")
-              })
-            })
-          
-
-      }).catch(err=>{
-        console.error("Error: " +err)
-        alert("Error: "+err)
-      })
-    })
-
-
-    mostrarLibreria.addEventListener("click",function(){
-      let data=new FormData()
-      data.append("libreria",true)
-      const tbodyLib=document.getElementById("tbodyLibreria")
-
-      fetch ('db/selectProductos.php',{
-        method:"POST",
-        body:data,
-      }).then(response=>response.text())
-      .then(data=>{
-        tbodyLib.innerHTML=data
-     
-        const buttonsEditar=document.querySelectorAll(".buttonEditar")
-            const productoEditar=document.getElementById("productoEditar")
-            const stockEditar=document.getElementById("stockEditar")
-            buttonsEditar.forEach(button=>{
-              button.addEventListener("click", function(){
-                const row=this.closest("tr")
-                const celdas=row.querySelectorAll("td")
-                const datos=[]
-
-                celdas.forEach(celda=>{
-                  datos.push(celda.textContent)
-                })
-                productoEditar.value=datos[0]
-                stockEditar.value=datos[1]
-
-                modalEditar.classList.remove("d-none")
-                modalEditar.classList.add("d-block")
-              })
-            })
-          
-           }).catch(err=>{
-        console.error("Error: " +err)
-        alert("Error: "+err)
-      })
-    })
-
-    
-    mostrarHerramientas.addEventListener("click",function(){
-      let data=new FormData()
-      data.append("herramientas",true)
-      const tbodyHer=document.getElementById("tbodyHerramientas")
-
-      fetch ('db/selectProductos.php',{
-        method:"POST",
-        body:data,
-      }).then(response=>response.text())
-      .then(data=>{
-        tbodyHer.innerHTML=data
-     
-        const buttonsEditar=document.querySelectorAll(".buttonEditar")
-            const productoEditar=document.getElementById("productoEditar")
-            const stockEditar=document.getElementById("stockEditar")
-            buttonsEditar.forEach(button=>{
-              button.addEventListener("click", function(){
-                const row=this.closest("tr")
-                const celdas=row.querySelectorAll("td")
-                const datos=[]
-
-                celdas.forEach(celda=>{
-                  datos.push(celda.textContent)
-                })
-                productoEditar.value=datos[0]
-                stockEditar.value=datos[1]
-
-                modalEditar.classList.remove("d-none")
-                modalEditar.classList.add("d-block")
-              })
-            })
-          
-          
-      }).catch(err=>{
-        console.error("Error: " +err)
-        alert("Error: "+err)
-      })
-    })
-
-    
-    mostrarKit.addEventListener("click",function(){
-      let data=new FormData()
-      data.append("kit",true)
-      const tbodyKit=document.getElementById("tbodyKit")
-
-      fetch ('db/selectProductos.php',{
-        method:"POST",
-        body:data,
-      }).then(response=>response.text())
-      .then(data=>{
-        tbodyKit.innerHTML=data
-        const buttonsEditar=document.querySelectorAll(".buttonEditar")
-            const productoEditar=document.getElementById("productoEditar")
-            const stockEditar=document.getElementById("stockEditar")
-            buttonsEditar.forEach(button=>{
-              button.addEventListener("click", function(){
-                const row=this.closest("tr")
-                const celdas=row.querySelectorAll("td")
-                const datos=[]
-
-                celdas.forEach(celda=>{
-                  datos.push(celda.textContent)
-                })
-                productoEditar.value=datos[0]
-                stockEditar.value=datos[1]
-
-                modalEditar.classList.remove("d-none")
-                modalEditar.classList.add("d-block")
-              })
-            })
-          
-      }).catch(err=>{
-        console.error("Error: " +err)
-        alert("Error: "+err)
-      })
-    })
-
-    mostrarComunicaciones.addEventListener("click",function(){
-      let data=new FormData()
-      data.append("comunicaciones",true)
-      const tbodyCom=document.getElementById("tbodyComunicaciones")
-
-      fetch ('db/selectProductos.php',{
-        method:"POST",
-        body:data,
-      }).then(response=>response.text())
-      .then(data=>{
-        tbodyCom.innerHTML=data
-        const buttonsEditar=document.querySelectorAll(".buttonEditar")
-            const productoEditar=document.getElementById("productoEditar")
-            const stockEditar=document.getElementById("stockEditar")
-            buttonsEditar.forEach(button=>{
-              button.addEventListener("click", function(){
-                const row=this.closest("tr")
-                const celdas=row.querySelectorAll("td")
-                const datos=[]
-
-                celdas.forEach(celda=>{
-                  datos.push(celda.textContent)
-                })
-                productoEditar.value=datos[0]
-                stockEditar.value=datos[1]
-
-                modalEditar.classList.remove("d-none")
-                modalEditar.classList.add("d-block")
-              })
-            })
-          
-          
-      }).catch(err=>{
-        console.error("Error: " +err)
-        alert("Error: "+err)
-      })
-
-
-
-      
-      
-      const enviarEditar=document.getElementById("enviarEditar")
-
-    enviarEditar.addEventListener("click",function(e){
         e.preventDefault()
-        console.log(idProducto)
-        // fetch('./db/')
-    })
-    })
+        let data = new FormData()
+        data.append("categoria", categoriaEditar.value)
+        data.append("id", idEditar.value)
+        data.append("producto", productoEditar.value)
+        data.append("stock", stockEditar.value)
+        data.append("talle", talleEditar.value)
+        data.append("color", colorEditar.value)
+        const tbodyId = todosTbody[categoriaEditar.value]
+        const tbody = document.getElementById(tbodyId)
 
 
+        fetch('db/registrarEditar.php', {
+            method: "POST",
+            body: data,
+          }).then(response => response.text())
+          .then(data => {
+            let select = new FormData()
+            select.append(todasCategorias[categoriaEditar.value], true)
+
+            fetch('db/selectProductos.php', {
+                method: "POST",
+                body: select,
+              }).then(responseSelect => responseSelect.text())
+              .then(dataSelect => {
+                tbody.innerHTML = dataSelect
+              })
+
+            if (data === "true") {
+              alertEditarError.classList.remove("d-block")
+              alertEditarError.classList.add("d-none")
+              alertEditarSuccess.classList.add("d-block")
+              alertEditarSuccess.classList.remove("d-none")
+            } else {
+              alertEditarError.classList.add("d-block")
+              alertEditarError.classList.remove("d-none")
+              alertEditarSuccess.classList.remove("d-block")
+              alertEditarSuccess.classList.add("d-none")
+            }
+          }).catch(err => {
+            console.error("Error: " + err)
+          })
+      }
+    
 
 
-    </script>
+  </script>
+  <script src="./js/mostrar.js"></script>
+
 </body>
 
 </html>
